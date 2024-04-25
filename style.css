@@ -138,19 +138,19 @@ body {
 }
 
 .dark-theme .betBtns button:first-child {
-    background: #222;
-    color: #fff;
+    background: #fff;
+    color: #000;
 }
 
 .betBtns button:last-child {
     /* background: #4e81b4; */
     background: #eee;
-    color: #000;
+    color: #fc4242;
 }
 
 .dark-theme .betBtns button:last-child {
-    background: #fff;
-    color: #000;
+    background: #fc4242;
+    color: #fff;
 }
 
 .betBtns button:hover {
