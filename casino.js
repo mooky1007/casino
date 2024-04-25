@@ -8,7 +8,7 @@ class Casino {
         this.record2 = [];
         this.maxium = 0;
         this.unit = 100;
-        this.firstCoin = 1000000;
+        this.firstCoin = 100000;
 
         this.gameTime = 1500;
         this.resultTime = 1000;
@@ -47,6 +47,10 @@ class Casino {
         evenBtn.addEventListener('click', () => {
             this.play(2);
         });
+
+        // autoPlay.addEventListener('click', () => {
+        //     this.autoPlay();
+        // });
 
         document.querySelectorAll('[data-bet]').forEach((button) => {
             button.addEventListener('click', () => {
