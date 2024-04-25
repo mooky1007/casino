@@ -90,7 +90,7 @@ class Casino {
             for (let i = 0; i < this.gameTime/10; i++) {
                 setTimeout(() => {
                     let ranNum = Math.floor(Math.random() * 37);
-                    betMsg.innerHTML = `<span style="font-size: 36px; color: ${ranNum % 2 == 0 ? '#4e81b4' : '#fc8242'};">${ranNum}</span>`;
+                    betMsg.innerHTML = `<span style="font-size: 60px; color: ${ranNum % 2 == 0 ? '#4e81b4' : '#fc8242'};">${ranNum}</span>`;
                 }, i * 10);
             }
 
@@ -131,8 +131,8 @@ class Casino {
                     this.coin += this.bet * 2;
                 }
 
-                const resultMsg = `<span style="font-size: 36px; color: ${
-                    number == 0 ? '#000' : number % 2 == 0 ? '#4e81b4' : '#fc8242'
+                const resultMsg = `<span style="font-size: 60px; color: ${
+                    number == 0 ? '#fff' : number % 2 == 0 ? '#4e81b4' : '#fc8242'
                 };">${number}</span>`;
                 // this.modal(number, resultMsg, this.bet * 2);
 
@@ -261,7 +261,7 @@ class Casino {
             .map((item, index) => {
                 switch (item) {
                     case '0':
-                        return `<span style="color:#000;">${item}</span>`;
+                        return `<span style="color:#fff;">${item}</span>`;
                         break;
                     default:
                         if (item % 2 == 0) {
@@ -280,7 +280,7 @@ class Casino {
                 <li>
                     <span>${item.date}</span>
                     <span>₩${item.price.toLocaleString()}</span>
-                    <span style="color:${item.result === '승' ? '#4e81b4' : '#fc8242;'}">${item.result}</span>
+                    <span style="color:${item.result === '승' ? '#42fc76' : '#fc4242;'}">${item.result}</span>
                 </li>
             `;
             })
