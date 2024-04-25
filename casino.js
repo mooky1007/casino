@@ -170,7 +170,8 @@ class Casino {
                 window.localStorage.setItem('acc', +window.localStorage.getItem('acc') + +this.firstCoin);
 
                 restartBtn.addEventListener('click', () => {
-                    this.coin = 100000;
+                    this.coin = this.firstCoin;
+                    this.maxium = this.coin;
                     this.lastBet = 0;
                     this.record = [];
                     this.record2 = [];

@@ -248,3 +248,19 @@ body {
 .button-wrap button {
     width: 100px;
 }
+
+.ad {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    position: absolute;
+}
+
+.ad a {
+    display: block;
+    font-size: 0;
+}
+
+.ad a img {
+    width: 100%;
+}
