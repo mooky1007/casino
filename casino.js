@@ -176,6 +176,8 @@ class Casino {
                     this.record = [];
                     this.record2 = [];
                     this.render();
+                    
+                    window.open('https://link.coupang.com/a/bzdp8o', '_blank');
                 });
 
                 betMsg.appendChild(restartBtn);

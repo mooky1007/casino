@@ -98,7 +98,7 @@ body {
 
 .betBtns {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     gap: 10px;
 }
 
@@ -209,7 +209,7 @@ body {
     width: 10%;
     text-align: center;
 }
-
+/* 
 .chips button:nth-of-type(1) {
     background: #b0e380;
 }
@@ -236,7 +236,7 @@ body {
 
 .chips button:nth-of-type(7) {
     background: #aa0a0a;
-}
+} */
 
 .button-wrap {
     display: flex !important;
@@ -251,17 +251,23 @@ body {
 
 .ad {
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
     position: absolute;
-    max-width: 320px;
-}
-
-.ad a {
-    display: block;
+    max-width: 420px;
     font-size: 0;
+    text-align: center;
 }
 
-.ad a img {
+.ad iframe {
     width: 100%;
+}
+
+.ad_p {
+    font-size: 8px;
+    background: #000;
+    color: #fff;
+    padding: 4px 0;
+    font-family: initial;
 }
