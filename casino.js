@@ -221,12 +221,12 @@ class Casino {
         this.maxium = this.coin;
         this.lastBet = 0;
         this.gameCount = 0;
-        // this.record = [];
-        // this.record2 = [];
+        this.record = [];
+        this.record2 = [];
         this.real -= this.firstCoin;
         this.render();
 
-        // window.open('https://link.coupang.com/a/bzdp8o', '_blank');
+        window.open('https://link.coupang.com/a/bzdp8o', '_blank');
     }
 
     reset() {
