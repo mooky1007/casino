@@ -13,6 +13,8 @@ class Casino {
 
     init() {
         this.coin = 100000;
+        this.maxium = 100000;
+
         oddBtn.addEventListener('click', () => {
             this.play(1);
         });
