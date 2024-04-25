@@ -94,7 +94,7 @@ class Casino {
             for (let i = 0; i < this.gameTime/10; i++) {
                 setTimeout(() => {
                     let ranNum = Math.floor(Math.random() * 37);
-                    betMsg.innerHTML = `<span style="font-size: 60px; color: ${ranNum % 2 == 0 ? '#4e81b4' : '#fc8242'};">${ranNum}</span>`;
+                    betMsg.innerHTML = `<span style="font-size: 60px; color: ${ranNum === 0 ? '#aaa' : ranNum % 2 == 0 ? '#fc4242' : '#fff'};">${ranNum}</span>`;
                 }, i * 10);
             }
 
@@ -136,7 +136,7 @@ class Casino {
                 }
 
                 const resultMsg = `<span style="font-size: 60px; color: ${
-                    number == 0 ? '#fff' : number % 2 == 0 ? '#4e81b4' : '#fc8242'
+                    number == 0 ? '#aaa' : number % 2 == 0 ? '#fc4242' : '#fff'
                 };">${number}</span>`;
                 // this.modal(number, resultMsg, this.bet * 2);
 
@@ -155,7 +155,7 @@ class Casino {
                     value === result ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
                 const resultPrice = value === result ? `+${this.bet.toLocaleString()}` : (this.bet * -1).toLocaleString();
 
-                p.innerHTML = resultText + `₩${resultPrice}`;
+                p.innerHTML = resultText + `<span style="${value === result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
 
                 betMsg.appendChild(p);
 
@@ -265,13 +265,13 @@ class Casino {
             .map((item, index) => {
                 switch (item) {
                     case '0':
-                        return `<span style="color:#fff;">${item}</span>`;
+                        return `<span style="color:#aaa;">${item}</span>`;
                         break;
                     default:
                         if (item % 2 == 0) {
-                            return `<span style="color:#4e81b4;">${item}</span>`;
+                            return `<span style="color:#fc4242;">${item}</span>`;
                         } else {
-                            return `<span style="color:#fc8242;">${item}</span>`;
+                            return `<span style="color:#fff;">${item}</span>`;
                         }
                 }
             })
@@ -283,8 +283,8 @@ class Casino {
                 return `
                 <li>
                     <span>${item.date}</span>
-                    <span>₩${item.price.toLocaleString()}</span>
-                    <span style="color:${item.result === '승' ? '#42fc76' : '#fc4242;'}">${item.result}</span>
+                    <span>${item.price.toLocaleString()}</span>
+                    <span style="color:${item.result === '승' ? '#439dff' : '#a40606;'}">${item.result}</span>
                 </li>
             `;
             })
