@@ -59,9 +59,10 @@ class Casino {
 
         // betMsg.innerHTML = '게임 중...';
 
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 150; i++) {
             setTimeout(() => {
-                betMsg.innerHTML = `<span style="font-size: 36px;">${Math.floor(Math.random() * 100) + 1}</span>`;
+                let ranNum = Math.floor(Math.random() * 100) + 1;
+                betMsg.innerHTML = `<span style="font-size: 36px; color: ${ranNum % 2 == 0 ? '#4e81b4' : '#fc8242'};">${ranNum}</span>`;
             }, i * 10);
         }
 
@@ -89,7 +90,7 @@ class Casino {
 
             this.isPlay = false;
             this.render();
-        }, 1000);
+        }, 1500);
     }
 
     render() {
