@@ -25,11 +25,11 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 320px;
+    max-width: 420px;
     min-height: 400px;
     height: 100%;
     background: #fff;
-    padding: 0 30px;
+    padding: 0 5vmin;
 }
 
 [data-bet] {
@@ -37,8 +37,8 @@ body {
     border: 2px solid #ddd;
     background: #000;
     color: #fff;
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     font-size: 10px;
     cursor: pointer;
 }
@@ -55,7 +55,7 @@ body {
     align-items: center;
     flex-direction: column;
     font-size: 12px;
-    height: 150px;
+    height: 250px;
     gap: 10px;
     text-align: center;
     border-radius: 10px;
@@ -150,7 +150,7 @@ body {
 
 .modal {
     position: absolute;
-    top: 17%;
+    top: 23vmin;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
@@ -236,4 +236,15 @@ body {
 
 .chips button:nth-of-type(7) {
     background: #aa0a0a;
+}
+
+.button-wrap {
+    display: flex !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    gap: 10px;
+}
+
+.button-wrap button {
+    width: 100px;
 }

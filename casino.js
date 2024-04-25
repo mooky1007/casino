@@ -97,9 +97,16 @@ class Casino {
 
             const date = new Date();
 
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+            const day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+            const hours = date.getHours() > 9 ? date.getHours() : '0' + date.getHours();
+            const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes();
+            const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds();
+
             this.record2.push({
-                date: date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
-                price: value === result ? this.bet * 2 : this.bet * -1,
+                date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
+                price: value === result ? this.bet : this.bet * -1,
                 result: value === result ? '승' : '패',
             });
             if (this.record2.length > 100) {
@@ -110,8 +117,26 @@ class Casino {
                 this.coin += this.bet * 2;
             }
 
-            const resultMsg = value === result ? '축하합니다.<br>+₩' + (this.bet * 2).toLocaleString() : '패배했습니다.';
-            this.modal(number, resultMsg, this.bet * 2);
+            const resultMsg = `<span style="font-size: 36px; color: ${number % 2 == 0 ? '#4e81b4' : '#fc8242'};">${number}</span>`;
+            // this.modal(number, resultMsg, this.bet * 2);
+
+            betMsg.innerHTML = resultMsg;
+
+            const p = document.createElement('p');
+            p.style.cssText = `
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                position: absolute;
+                top: 65%;
+            `;
+
+            const resultText = value === result ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
+            const resultPrice = value === result ? `+${this.bet.toLocaleString()}` : (this.bet * -1).toLocaleString();
+
+            p.innerHTML = resultText + `₩${resultPrice}`;
+
+            betMsg.appendChild(p);
 
             this.bet = 0;
 
@@ -120,7 +145,10 @@ class Casino {
             }
 
             this.isPlay = false;
-            this.render();
+
+            setTimeout(() => {
+                this.render();
+            }, 1000);
         }, 1500);
     }
 
@@ -136,9 +164,9 @@ class Casino {
                     '</strong></span>';
 
                 const restartBtn = document.createElement('button');
-                restartBtn.innerHTML = '다시 시작';
+                restartBtn.innerHTML = '다시하기';
 
-                if(!window.localStorage.getItem('acc')) window.localStorage.setItem('acc', 0);
+                if (!window.localStorage.getItem('acc')) window.localStorage.setItem('acc', 0);
                 window.localStorage.setItem('acc', +window.localStorage.getItem('acc') + +this.firstCoin);
 
                 restartBtn.addEventListener('click', () => {
@@ -178,6 +206,10 @@ class Casino {
             }
         } else {
             betMsg.innerHTML = `₩${this.bet.toLocaleString()} 배팅합니다.`;
+
+            const buttonWrap = document.createElement('div');
+            buttonWrap.classList.add('button-wrap');
+
             const multipleBtn = document.createElement('button');
             multipleBtn.innerHTML = 'x2';
             multipleBtn.addEventListener('click', () => {
@@ -188,7 +220,16 @@ class Casino {
                 this.render();
             });
 
-            betMsg.appendChild(multipleBtn);
+            const cancelBtn = document.createElement('button');
+            cancelBtn.innerHTML = '취소';
+            cancelBtn.style.backgroundColor = '#999';
+            cancelBtn.addEventListener('click', () => {
+                this.bet = 0;
+                this.render();
+            });
+
+            buttonWrap.append(multipleBtn, cancelBtn);
+            betMsg.appendChild(buttonWrap);
         }
 
         record.innerHTML = [...this.record]
