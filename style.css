@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'KyoboHandwriting2023wsa';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404-2@1.0/KyoboHandwriting2023wsa.woff2') format('woff2');
+    font-family: 'Giants-Inline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Inline.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -9,7 +9,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'KyoboHandwriting2023wsa';
+    font-family: 'Giants-Inline';
 }
 
 html {
@@ -150,7 +150,7 @@ body {
 }
 
 .modal h1 {
-    font-size: 20px;
+    font-size: 42px;
     margin: 0;
     padding: 0;
     margin-bottom: 10px;

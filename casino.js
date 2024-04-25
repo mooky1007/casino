@@ -57,7 +57,13 @@ class Casino {
         this.lastBet = this.bet;
         this.render();
 
-        betMsg.innerHTML = '게임 중...';
+        // betMsg.innerHTML = '게임 중...';
+
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                betMsg.innerHTML = `<span style="font-size: 36px;">${Math.floor(Math.random() * 100) + 1}</span>`;
+            }, i * 10);
+        }
 
         setTimeout(() => {
             let number = Math.floor(Math.random() * 100) + 1;
@@ -91,7 +97,7 @@ class Casino {
 
         if (this.bet === 0) {
             if (this.coin === 0) {
-                betMsg.innerHTML = '소지금이 부족합니다.<br>최대 소지금: <strong>₩' + this.maxium.toLocaleString() + '</strong>';
+                betMsg.innerHTML = '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">₩' + this.maxium.toLocaleString() + '</strong></span>';
 
                 const restartBtn = document.createElement('button');
                 restartBtn.innerHTML = '다시 시작';
@@ -105,7 +111,7 @@ class Casino {
 
                 betMsg.appendChild(restartBtn);
             } else {
-                const betMsgText = '배팅 금액을 선택하세요.';
+                const betMsgText = '배팅하세요.';
                 const span = document.createElement('span');
                 span.innerHTML = betMsgText;
                 span.style.display = 'block';
