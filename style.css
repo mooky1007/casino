@@ -36,12 +36,26 @@ body {
 }
 
 #betMsg {
+    position: relative;
     padding: 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     font-size: 12px;
     height: 150px;
+    gap: 10px;
+    text-align: center;
+}
+
+#betMsg button {
+    padding: 5px 10px;
+    font-size: 12px;
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 }
 
 #betMsg > div {
@@ -50,16 +64,6 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
-}
-
-#betMsg > div button {
-    padding: 5px 10px;
-    font-size: 12px;
-    background: #000;
-    color: #fff;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
 }
 
 .chips {
@@ -77,14 +81,31 @@ body {
 }
 
 .betBtns {
-    display: flex;  
+    display: flex;
+    margin-top: 20px;
     gap: 10px;
 }
 
 .betBtns button {
     width: 100%;
-    padding: 5px 0;
+    padding: 10px 0;
     font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.betBtns button:first-child {
+    background: #fc8242;
+    color: #fff;
+}
+
+.betBtns button:last-child {
+    background: #4e81b4;
+    color: #fff;
+}
+
+.betBtns button:hover {
+    opacity: 0.8;
 }
 
 #record {
@@ -99,4 +120,31 @@ body {
     justify-content: center;
     align-items: center;
     padding: 5px 0;
+}
+
+.modal {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 10px;
+    width: 200px;
+    height: 100px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 12px;
+    transition: 0.5s;
+    text-align: center;
+}
+
+.modal h1 {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    line-height: 1;
 }

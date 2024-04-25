@@ -5,6 +5,7 @@ class Casino {
         this.bet = 0;
         this.lastBet = 0;
         this.record = [];
+        this.maxium = 0;
 
         this.init();
         this.render();
@@ -69,13 +70,17 @@ class Casino {
                 this.coin += this.bet * 2;
             }
 
-            betMsg.innerHTML = `${result === 1 ? '[홀]' : '[짝]'}, ${value === result ? `축하합니다. +₩${(this.bet * 2).toLocaleString()}` : '패배'}`;
+            const resultMsg = value === result ? '축하합니다.<br>+₩' + (this.bet * 2).toLocaleString() : '패배했습니다.';
+            this.modal(number, resultMsg, this.bet * 2);
 
-            setTimeout(() => {
-                this.bet = 0;
-                this.isPlay = false;
-                this.render();
-            }, 500);
+            this.bet = 0;
+            
+            if (this.coin > this.maxium) {
+                this.maxium = this.coin;
+            }
+
+            this.isPlay = false;
+            this.render();
         }, 1000);
     }
 
@@ -84,7 +89,19 @@ class Casino {
 
         if (this.bet === 0) {
             if (this.coin === 0) {
-                betMsg.innerHTML = '파산했습니다..';
+                betMsg.innerHTML = '소지금이 부족합니다.<br>최대 소지금: ₩' + this.maxium.toLocaleString() + '<br>다시 시작하려면 버튼을 클릭하세요.';
+
+                const restartBtn = document.createElement('button');
+                restartBtn.innerHTML = '다시 시작';
+
+                restartBtn.addEventListener('click', () => {
+                    this.coin = 100000;
+                    this.lastBet = 0;
+                    this.record = [];
+                    this.render();
+                });
+
+                betMsg.appendChild(restartBtn);
             } else {
                 const betMsgText = '배팅 금액을 선택하세요.';
                 const span = document.createElement('span');
@@ -99,34 +116,62 @@ class Casino {
                     button.innerHTML = '재배팅';
                     button.addEventListener('click', () => {
                         this.bet = this.lastBet;
+                        if (this.bet > this.coin) {
+                            this.bet = this.coin;
+                        }
                         this.render();
                     });
 
                     div.appendChild(button);
                 }
 
-                // if (this.bet > 0) {
-                //     const multipleBtn = document.createElement('button');
-                //     multipleBtn.innerHTML = 'x2';
-                //     multipleBtn.addEventListener('click', () => {
-                //         this.bet *= 2;
-                //         this.render();
-                //     });
-
-                //     div.appendChild(multipleBtn);
-                // }
                 betMsg.innerHTML = '';
                 betMsg.appendChild(div);
             }
         } else {
             betMsg.innerHTML = `₩${this.bet.toLocaleString()} 배팅합니다.`;
+            const multipleBtn = document.createElement('button');
+            multipleBtn.innerHTML = 'x2';
+            multipleBtn.addEventListener('click', () => {
+                this.bet *= 2;
+                if (this.bet > this.coin) {
+                    this.bet = this.coin;
+                }
+                this.render();
+            });
+
+            betMsg.appendChild(multipleBtn);
         }
 
         record.innerHTML = [...this.record]
             .reverse()
             .map((item, index) => {
-                return `<span style="${item === '홀' ? 'color:blue;' : 'color:red;'}">${item}</span>`;
+                return `<span style="${item === '홀' ? 'color:#4e81b4;' : 'color:#fc8242;'}">${item}</span>`;
             })
             .join('');
+    }
+
+    modal(value, result) {
+        const div = document.createElement('div');
+        div.classList.add('modal');
+
+        const h1 = document.createElement('h1');
+        h1.innerHTML = value;
+
+        const p = document.createElement('p');
+        p.innerHTML = result;
+
+        div.append(h1, p);
+
+        // betMsg.appendChild(div);
+        document.body.appendChild(div);
+
+        setTimeout(() => {
+            div.style.opacity = 0;
+            div.style.top = '34%';
+            setTimeout(() => {
+                document.body.removeChild(div);
+            }, 500);
+        }, 1000);
     }
 }
