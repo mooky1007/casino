@@ -148,7 +148,7 @@ class Casino {
         record.innerHTML = [...this.record]
             .reverse()
             .map((item, index) => {
-                return `<span style="${item === '홀' ? 'color:#4e81b4;' : 'color:#fc8242;'}">${item}</span>`;
+                return `<span style="${item === '홀' ? 'color:#fc8242;' : 'color:#4e81b4;'}">${item}</span>`;
             })
             .join('');
     }
@@ -159,6 +159,7 @@ class Casino {
 
         const h1 = document.createElement('h1');
         h1.innerHTML = value;
+        h1.style.color = value % 2 == 0 ? '#4e81b4' : '#fc8242';
 
         const p = document.createElement('p');
         p.innerHTML = result;
