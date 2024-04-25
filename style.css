@@ -254,6 +254,7 @@ body {
     left: 0;
     width: 100%;
     position: absolute;
+    max-width: 320px;
 }
 
 .ad a {
