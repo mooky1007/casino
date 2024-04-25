@@ -2,7 +2,7 @@ class Casino {
     constructor() {
         this.coin = 0;
         this.isPlay = false;
-        this.bet = 0;
+        this._bet = 0;
         this.lastBet = 0;
         this.record = [];
         this.record2 = [];
@@ -10,13 +10,32 @@ class Casino {
         this.unit = 100;
         this.firstCoin = 100000;
 
-        this.gameTime = 1500;
-        this.resultTime = 1000;
+        this.real = this.firstCoin;
+
+        this.maxiumBet = 5000000;
+
+        this.gameTime = 500;
+        this.resultTime = 1500;
 
         this.gameCount = 0;
 
+        this.autoCount = 0;
+        this.autoWinCount = 0;
+        this.autoLoseCount = 0;
+
         this.init();
         this.render();
+    }
+
+    get bet() {
+        return this._bet;
+    }
+
+    set bet(value) {
+        if (value > this.maxiumBet) {
+            value = this.maxiumBet;
+        }
+        this._bet = value;
     }
 
     init() {
@@ -39,6 +58,14 @@ class Casino {
             this.record2 = JSON.parse(window.localStorage.getItem('record2'));
         }
 
+        if (window.localStorage.getItem('gameCount')) {
+            this.gameCount = parseInt(window.localStorage.getItem('gameCount'));
+        }
+
+        if (window.localStorage.getItem('real')) {
+            this.real = parseInt(window.localStorage.getItem('real'));
+        }
+
         this.render();
 
         oddBtn.addEventListener('click', () => {
@@ -47,6 +74,18 @@ class Casino {
         evenBtn.addEventListener('click', () => {
             this.play(2);
         });
+
+        // withdraw.addEventListener('click', () => {
+        //     this.real += this.coin;
+        //     this.coin = 0;
+        //     this.render();
+        // });
+
+        // deposit.addEventListener('click', () => {
+        //     this.coin += this.real;
+        //     this.real = 0;
+        //     this.render();
+        // });
 
         // autoPlay.addEventListener('click', () => {
         //     this.autoPlay();
@@ -91,10 +130,12 @@ class Casino {
 
             // betMsg.innerHTML = '게임 중...';
 
-            for (let i = 0; i < this.gameTime/10; i++) {
+            for (let i = 0; i < this.gameTime / 10; i++) {
                 setTimeout(() => {
                     let ranNum = Math.floor(Math.random() * 37);
-                    betMsg.innerHTML = `<span style="font-size: 60px; color: ${ranNum === 0 ? '#aaa' : ranNum % 2 == 0 ? '#fc4242' : '#fff'};">${ranNum}</span>`;
+                    betMsg.innerHTML = `<span style="font-size: 92px; font-family: 'Giants-Inline'; color: ${
+                        ranNum === 0 ? '#aaa' : ranNum % 2 == 0 ? '#fc4242' : '#fff'
+                    };">${ranNum}</span>`;
                 }, i * 10);
             }
 
@@ -135,7 +176,7 @@ class Casino {
                     this.coin += this.bet * 2;
                 }
 
-                const resultMsg = `<span style="font-size: 60px; color: ${
+                const resultMsg = `<span style="font-size: 92px; font-family: 'Giants-Inline'; color: ${
                     number == 0 ? '#aaa' : number % 2 == 0 ? '#fc4242' : '#fff'
                 };">${number}</span>`;
                 // this.modal(number, resultMsg, this.bet * 2);
@@ -148,7 +189,7 @@ class Casino {
                     flex-direction: column;
                     gap: 5px;
                     position: absolute;
-                    top: 65%;
+                    top: 70%;
                 `;
 
                 const resultText =
@@ -167,25 +208,53 @@ class Casino {
 
                 this.isPlay = false;
                 resolve(value === result ? true : false);
-                
-                setTimeout(() => {
+
+                this.resultTimer = setTimeout(() => {
                     this.render();
                 }, this.resultTime);
             }, this.gameTime);
         });
     }
 
+    restart() {
+        this.coin = this.firstCoin;
+        this.maxium = this.coin;
+        this.lastBet = 0;
+        this.gameCount = 0;
+        // this.record = [];
+        // this.record2 = [];
+        this.real -= this.firstCoin;
+        this.render();
+
+        // window.open('https://link.coupang.com/a/bzdp8o', '_blank');
+    }
+
+    reset() {
+        window.localStorage.clear();
+        this.coin = this.firstCoin;
+        this.maxium = 0;
+        this.lastBet = 0;
+        this.gameCount = 0;
+        this.record = [];
+        this.record2 = [];
+        this.real = 0;
+        this.render();
+    }
+
     render() {
-        coin.innerHTML = `소지금: ₩${this.coin.toLocaleString()}`;
+        if (this.resultTimer) clearTimeout(this.resultTimer);
+        coin.innerHTML = `소지금: ${this.coin.toLocaleString()}`;
         // maxium.innerHTML = `최대 소지금: ₩${this.maxium.toLocaleString()}`;
-        // gameCount.innerHTML = `게임 횟수: ${this.gameCount}`;
+        gameCount.innerHTML = `게임 횟수: ${this.gameCount.toLocaleString()}`;
+        // real.innerHTML = `보유 자금: ${(this.real + this.coin).toLocaleString()}`;
+
+        window.localStorage.setItem('gameCount', this.gameCount);
+        window.localStorage.setItem('real', this.real);
 
         if (this.bet === 0) {
             if (this.coin === 0) {
                 betMsg.innerHTML =
-                    '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">₩' +
-                    this.maxium.toLocaleString() +
-                    '</strong></span>';
+                    '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
 
                 const restartBtn = document.createElement('button');
                 restartBtn.innerHTML = '다시하기';
@@ -194,15 +263,7 @@ class Casino {
                 window.localStorage.setItem('acc', +window.localStorage.getItem('acc') + +this.firstCoin);
 
                 restartBtn.addEventListener('click', () => {
-                    this.coin = this.firstCoin;
-                    this.maxium = this.coin;
-                    this.lastBet = 0;
-                    this.gameCount = 0;
-                    this.record = [];
-                    this.record2 = [];
-                    this.render();
-
-                    window.open('https://link.coupang.com/a/bzdp8o', '_blank');
+                    this.restart();
                 });
 
                 betMsg.appendChild(restartBtn);
@@ -250,7 +311,7 @@ class Casino {
 
             const cancelBtn = document.createElement('button');
             cancelBtn.innerHTML = '취소';
-            cancelBtn.style.backgroundColor = '#999';
+            cancelBtn.style.backgroundColor = '#444';
             cancelBtn.addEventListener('click', () => {
                 this.bet = 0;
                 this.render();
@@ -296,23 +357,97 @@ class Casino {
         window.localStorage.setItem('record2', JSON.stringify(this.record2));
     }
 
-    async autoPlay(seed = this.unit) {
+    async autoPlayDaniel(seed = this.unit, count = 10) {
+        this.autoCount++;
         this.gameTime = 0;
         this.resultTime = 0;
+
+        if (this.autoCount > count) {
+            this.autoCount = 0;
+            return;
+        }
 
         this.bet = seed;
         const result = await this.play(1);
 
         if (result) {
-            this.autoPlay(this.unit);
+            this.autoPlayDaniel(this.unit, count);
         } else {
-            if(this.autoWinCount === 0){
-                this.autoPlay(seed * 2 + this.unit);
-            }else{
-                this.autoWinCount = 0;
-                this.autoPlay(this.unit);
-            }
-            
+            this.autoPlayDaniel(seed * 2 + this.unit, count);
         }
+    }
+
+    async autoPlayMartinGale(seed = this.unit, count = 10) {
+        this.autoCount++;
+        this.gameTime = 0;
+        this.resultTime = 0;
+
+        if (this.autoCount > count) {
+            this.autoCount = 0;
+            return;
+        }
+
+        this.bet = seed;
+        const result = await this.play(1);
+
+        if (result) {
+            this.autoPlayMartinGale(this.unit, count);
+        } else {
+            this.autoPlayMartinGale(seed * 2, count);
+        }
+    }
+
+    async autoPlayParoli(seed = this.unit, count = 10) {
+        this.autoCount++;
+        this.gameTime = 0;
+        this.resultTime = 0;
+
+        if (this.autoCount > count) {
+            this.autoCount = 0;
+            return;
+        }
+
+        this.bet = seed;
+        const result = await this.play(1);
+
+        if (result) {
+            this.autoWinCount++;
+            if (this.autoWinCount < 3) {
+                this.autoPlayParoli(seed * 2, count);
+            } else {
+                this.autoWinCount = 0;
+                this.autoPlayParoli(this.unit, count);
+            }
+        } else {
+            this.autoWinCount = 0;
+            this.autoPlayParoli(this.unit, count);
+        }
+    }
+
+    async autoPlayTenPercent(count = 10) {
+        this.autoCount++;
+        this.gameTime = 0;
+        this.resultTime = 0;
+
+        if (this.autoCount > count) {
+            this.autoCount = 0;
+            return;
+        }
+
+        this.bet = Math.floor(this.coin * 0.1);
+        const result = await this.play(1);
+
+        if (result) {
+            this.autoWinCount++;
+
+            if (this.autoWinCount >= 5) {
+                this.autoWinCount = 0;
+                return;
+            }
+        } else {
+            this.autoWinCount = 0;
+        }
+
+        this.autoPlayTenPercent(count);
     }
 }
