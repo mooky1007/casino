@@ -91,7 +91,7 @@ class Casino {
 
         if (this.bet === 0) {
             if (this.coin === 0) {
-                betMsg.innerHTML = '소지금이 부족합니다.<br>최대 소지금: ₩' + this.maxium.toLocaleString() + '<br>다시 시작하려면 버튼을 클릭하세요.';
+                betMsg.innerHTML = '소지금이 부족합니다.<br>최대 소지금: <strong>₩' + this.maxium.toLocaleString() + '</strong>';
 
                 const restartBtn = document.createElement('button');
                 restartBtn.innerHTML = '다시 시작';
