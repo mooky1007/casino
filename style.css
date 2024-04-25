@@ -10,6 +10,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Giants-Inline';
+    user-select: none;
 }
 
 html {
@@ -17,6 +18,7 @@ html {
     height: 100%;
     justify-content: center;
     align-items: center;
+    background: #000;
 }
 
 body {
@@ -24,7 +26,10 @@ body {
     flex-direction: column;
     width: 100%;
     max-width: 320px;
-    height: 400px;
+    min-height: 400px;
+    height: 100%;
+    background: #fff;
+    padding: 0 30px;
 }
 
 [data-bet] {
@@ -39,8 +44,7 @@ body {
 }
 
 [data-bet]:hover {
-    background: #fff;
-    color: #000;
+    opacity: 0.8;
 }
 
 #betMsg {
@@ -54,6 +58,9 @@ body {
     height: 150px;
     gap: 10px;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: inset 3px 3px 10px rgba(0, 0, 0, 0.2);
+    background: #eee;
 }
 
 #betMsg button {
@@ -81,11 +88,12 @@ body {
     padding: 10px 0;
 }
 
-#coin {
-    width: 100%;
+.text_wrap {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
     text-align: right;
     font-size: 12px;
-    padding : 10px 0;
 }
 
 .betBtns {
@@ -103,13 +111,15 @@ body {
 }
 
 .betBtns button:first-child {
-    background: #fc8242;
+    /* background: #fc8242; */
+    background: #000;
     color: #fff;
 }
 
 .betBtns button:last-child {
-    background: #4e81b4;
-    color: #fff;
+    /* background: #4e81b4; */
+    background: #eee;
+    color: #000;
 }
 
 .betBtns button:hover {
@@ -118,7 +128,11 @@ body {
 
 #record {
     display: grid;
-    grid-template-columns: repeat(15, 1fr);
+    grid-template-columns: repeat(9, 1fr);
+    height: 32px;
+    border-bottom: none;
+    border-right: none;
+    margin-bottom: 10px;
 }
 
 #record span {
@@ -127,19 +141,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px 0;
+    line-height: 1;
+}
+
+#record span:nth-child(2n-1) {
+    background: #fafafa;
 }
 
 .modal {
     position: absolute;
-    top: 35%;
+    top: 17%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
     border-radius: 10px;
-    width: 200px;
-    height: 100px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 240px;
+    min-height: 100px;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -147,6 +165,7 @@ body {
     font-size: 12px;
     transition: 0.5s;
     text-align: center;
+    padding: 30px 0;
 }
 
 .modal h1 {
@@ -155,4 +174,66 @@ body {
     padding: 0;
     margin-bottom: 10px;
     line-height: 1;
+}
+
+#record2 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+#record2 li {
+    list-style: none;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    color: #333;
+    padding: 5px;
+}
+
+#record2 li:nth-child(2n) {
+    background: #f0f0f0;
+}
+
+#record2 li span:first-child {
+    width: 50%;
+}
+
+#record2 li span:nth-child(2) {
+    width: 25%;
+}
+
+#record2 li span:last-child {
+    width: 10%;
+    text-align: center;
+}
+
+.chips button:nth-of-type(1) {
+    background: #b0e380;
+}
+
+.chips button:nth-of-type(2) {
+    background: #4eb473;
+}
+
+.chips button:nth-of-type(3) {
+    background: #66bdb3;
+}
+
+.chips button:nth-of-type(4) {
+    background: #4c60a0;
+}
+
+.chips button:nth-of-type(5) {
+    background: #a52ac0;
+}
+
+.chips button:nth-of-type(6) {
+    background: #b5296a;
+}
+
+.chips button:nth-of-type(7) {
+    background: #aa0a0a;
 }

@@ -5,15 +5,35 @@ class Casino {
         this.bet = 0;
         this.lastBet = 0;
         this.record = [];
+        this.record2 = [];
         this.maxium = 0;
+        this.firstCoin = 100000;
 
         this.init();
         this.render();
     }
 
     init() {
-        this.coin = 100000;
-        this.maxium = 100000;
+        this.coin = this.firstCoin;
+        this.maxium = this.coin;
+
+        if (window.localStorage.getItem('coin')) {
+            this.coin = parseInt(window.localStorage.getItem('coin'));
+        }
+
+        if (window.localStorage.getItem('maxium')) {
+            this.maxium = parseInt(window.localStorage.getItem('maxium'));
+        }
+
+        if (window.localStorage.getItem('record')) {
+            this.record = JSON.parse(window.localStorage.getItem('record'));
+        }
+
+        if (window.localStorage.getItem('record2')) {
+            this.record2 = JSON.parse(window.localStorage.getItem('record2'));
+        }
+
+        this.render();
 
         oddBtn.addEventListener('click', () => {
             this.play(1);
@@ -71,8 +91,19 @@ class Casino {
             let result = number % 2 == 0 ? 2 : 1;
 
             this.record.push(result === 1 ? '홀' : '짝');
-            if (this.record.length > 45) {
+            if (this.record.length > 9) {
                 this.record.shift();
+            }
+
+            const date = new Date();
+
+            this.record2.push({
+                date: date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
+                price: value === result ? this.bet * 2 : this.bet * -1,
+                result: value === result ? '승' : '패',
+            });
+            if (this.record2.length > 100) {
+                this.record2.shift();
             }
 
             if (value == result) {
@@ -83,7 +114,7 @@ class Casino {
             this.modal(number, resultMsg, this.bet * 2);
 
             this.bet = 0;
-            
+
             if (this.coin > this.maxium) {
                 this.maxium = this.coin;
             }
@@ -95,18 +126,26 @@ class Casino {
 
     render() {
         coin.innerHTML = `소지금: ₩${this.coin.toLocaleString()}`;
+        // maxium.innerHTML = `최대 소지금: ₩${this.maxium.toLocaleString()}`;
 
         if (this.bet === 0) {
             if (this.coin === 0) {
-                betMsg.innerHTML = '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">₩' + this.maxium.toLocaleString() + '</strong></span>';
+                betMsg.innerHTML =
+                    '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">₩' +
+                    this.maxium.toLocaleString() +
+                    '</strong></span>';
 
                 const restartBtn = document.createElement('button');
                 restartBtn.innerHTML = '다시 시작';
+
+                if(!window.localStorage.getItem('acc')) window.localStorage.setItem('acc', 0);
+                window.localStorage.setItem('acc', +window.localStorage.getItem('acc') + +this.firstCoin);
 
                 restartBtn.addEventListener('click', () => {
                     this.coin = 100000;
                     this.lastBet = 0;
                     this.record = [];
+                    this.record2 = [];
                     this.render();
                 });
 
@@ -158,6 +197,24 @@ class Casino {
                 return `<span style="${item === '홀' ? 'color:#fc8242;' : 'color:#4e81b4;'}">${item}</span>`;
             })
             .join('');
+
+        record2.innerHTML = [...this.record2]
+            .reverse()
+            .map((item, index) => {
+                return `
+                <li>
+                    <span>${item.date}</span>
+                    <span>₩${item.price.toLocaleString()}</span>
+                    <span style="color:${item.result === '승' ? '#4e81b4' : '#fc8242;'}">${item.result}</span>
+                </li>
+            `;
+            })
+            .join('');
+
+        window.localStorage.setItem('coin', this.coin);
+        window.localStorage.setItem('maxium', this.maxium);
+        window.localStorage.setItem('record', JSON.stringify(this.record));
+        window.localStorage.setItem('record2', JSON.stringify(this.record2));
     }
 
     modal(value, result) {
@@ -178,7 +235,7 @@ class Casino {
 
         setTimeout(() => {
             div.style.opacity = 0;
-            div.style.top = '34%';
+            div.style.top = '15.75%';
             setTimeout(() => {
                 document.body.removeChild(div);
             }, 500);
