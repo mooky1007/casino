@@ -1,9 +1,4 @@
-@font-face {
-    font-family: 'SDSwaggerTTF';
-    src: url('https://cdn.jsdelivr.net/gh/fontbee/font@main/SDSwagger/SDSwaggerTTF.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 
 @font-face {
     font-family: 'Pretendard-Regular';
@@ -23,7 +18,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'SDSwaggerTTF';
+    font-family: "Do Hyeon", sans-serif;
     user-select: none;
     color: #fff;
 }
