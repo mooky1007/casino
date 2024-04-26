@@ -8,11 +8,11 @@ class Casino {
         this.record2 = [];
         this.maxium = 0;
         this.unit = 100;
-        this.firstCoin = 100000;
+        this.firstCoin = 100;
 
         this.real = this.firstCoin;
 
-        this.maxiumBet = 5000000;
+        this.maxiumBet = 5000;
 
         this.gameTime = 500;
         this.resultTime = 1500;
@@ -171,7 +171,7 @@ class Casino {
                 this.record2.push({
                     date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
                     price: value === result ? (this.bet * 1).toLocaleString() : (this.bet * -1).toLocaleString(),
-                    result: value === result ? 'Win' : '패',
+                    result: value === result ? 'Win' : 'Lose',
                 });
                 if (this.record2.length > 200) {
                     this.record2.shift();
@@ -201,7 +201,7 @@ class Casino {
                     value === result ? '<span style="font-size:14px;">Congratulations.</span>' : '<span style="font-size:14px;">You lose.</span>';
                 const resultPrice = value === result ? `+${(this.bet * 1).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
-                p.innerHTML = resultText + `<span style="${value === result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
+                p.innerHTML = resultText + `<span style="${value === result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}$</span>`;
 
                 betMsg.appendChild(p);
 
@@ -298,7 +298,7 @@ class Casino {
                     gameResult ? '<span style="font-size:14px;">Congratulations.</span>' : '<span style="font-size:14px;">You lose.</span>';
                 const resultPrice = gameResult ? `+${(this.bet * 2).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
-                p.innerHTML = resultText + `<span style="${gameResult ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
+                p.innerHTML = resultText + `<span style="${gameResult ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}$</span>`;
 
                 betMsg.appendChild(p);
 
@@ -364,7 +364,7 @@ class Casino {
                 this.record2.push({
                     date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
                     price: result ? (this.bet * 35).toLocaleString() : (this.bet * -1).toLocaleString(),
-                    result: result ? 'Win' : '패',
+                    result: result ? 'Win' : 'Lose',
                 });
                 if (this.record2.length > 200) {
                     this.record2.shift();
@@ -394,7 +394,7 @@ class Casino {
                     result ? '<span style="font-size:14px;">Congratulations.</span>' : '<span style="font-size:14px;">You lose.</span>';
                 const resultPrice = result ? `+${(this.bet * 35).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
-                p.innerHTML = resultText + `<span style="${result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
+                p.innerHTML = resultText + `<span style="${result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}$</span>`;
 
                 betMsg.appendChild(p);
 
@@ -441,7 +441,7 @@ class Casino {
 
     render() {
         if (this.resultTimer) clearTimeout(this.resultTimer);
-        coin.innerHTML = `money: ${this.coin.toLocaleString()}`;
+        coin.innerHTML = `money: ${this.coin.toLocaleString()}$`;
         // maxium.innerHTML = `최대 소지금: ₩${this.maxium.toLocaleString()}`;
         gameCount.innerHTML = `game count: ${this.gameCount.toLocaleString()}`;
         // real.innerHTML = `보유 자금: ${(this.real + this.coin).toLocaleString()}`;
@@ -493,7 +493,7 @@ class Casino {
                 betMsg.appendChild(div);
             }
         } else {
-            betMsg.innerHTML = `₩${this.bet.toLocaleString()} on the table.`;
+            betMsg.innerHTML = `${this.bet.toLocaleString()}$ on the table.`;
 
             const buttonWrap = document.createElement('div');
             buttonWrap.classList.add('button-wrap');
@@ -543,7 +543,7 @@ class Casino {
                 return `
                 <li>
                     <span>${item.date}</span>
-                    <span>${item.price.toLocaleString()}</span>
+                    <span>${item.price.toLocaleString()}$</span>
                     <span style="color:${item.result === 'Win' ? '#439dff' : '#a40606;'}">${item.result}</span>
                 </li>
             `;
