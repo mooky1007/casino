@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
 @font-face {
     font-family: 'Pretendard-Regular';
@@ -18,7 +18,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Do Hyeon", sans-serif;
+    font-family: "Jersey 25", sans-serif;
     user-select: none;
     color: #fff;
 }

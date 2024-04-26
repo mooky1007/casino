@@ -453,7 +453,7 @@ class Casino {
             if (this.coin === 0) {
                 betMsg.innerHTML =
                     // '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
-                    'You have no money.<br><span>Maximum: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
+                    'You have no money.<br><span>maximum: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '$</strong></span>';
 
                 const restartBtn = document.createElement('button');
                 restartBtn.innerHTML = 'Restart';
