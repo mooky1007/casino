@@ -194,7 +194,7 @@ class Casino {
                     flex-direction: column;
                     gap: 5px;
                     position: absolute;
-                    top: 70%;
+                    top: 73%;
                 `;
 
                 const resultText =
@@ -291,7 +291,7 @@ class Casino {
                     flex-direction: column;
                     gap: 5px;
                     position: absolute;
-                    top: 70%;
+                    top: 73%;
                 `;
 
                 const resultText =
@@ -387,7 +387,7 @@ class Casino {
                     flex-direction: column;
                     gap: 5px;
                     position: absolute;
-                    top: 70%;
+                    top: 73%;
                 `;
 
                 const resultText =
@@ -441,9 +441,9 @@ class Casino {
 
     render() {
         if (this.resultTimer) clearTimeout(this.resultTimer);
-        coin.innerHTML = `money: ${this.coin.toLocaleString()}$`;
+        coin.innerHTML = `${this.coin.toLocaleString()}$`;
         // maxium.innerHTML = `최대 소지금: ₩${this.maxium.toLocaleString()}`;
-        gameCount.innerHTML = `game count: ${this.gameCount.toLocaleString()}`;
+        gameCount.innerHTML = `count: ${this.gameCount.toLocaleString()}`;
         // real.innerHTML = `보유 자금: ${(this.real + this.coin).toLocaleString()}`;
 
         window.localStorage.setItem('gameCount', this.gameCount);
@@ -452,8 +452,8 @@ class Casino {
         if (this.bet === 0) {
             if (this.coin === 0) {
                 betMsg.innerHTML =
-                    // '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
-                    'You have no money.<br><span>maximum: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '$</strong></span>';
+                    // '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:12px;">' + this.maxium.toLocaleString() + '</strong></span>';
+                    'You have no money.<br><span style="font-size:12px;">maximum: <strong>' + this.maxium.toLocaleString() + '$</strong></span>';
 
                 const restartBtn = document.createElement('button');
                 restartBtn.innerHTML = 'Restart';
