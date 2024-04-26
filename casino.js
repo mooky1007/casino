@@ -75,6 +75,22 @@ class Casino {
             this.play(2);
         });
 
+        dozenBtn1.addEventListener('click', () => {
+            this.playDozen([1,12]);
+        })
+
+        dozenBtn2.addEventListener('click', () => {
+            this.playDozen([13,24]);
+        });
+
+        dozenBtn3.addEventListener('click', () => {
+            this.playDozen([25,36]);
+        });
+
+        straightBtn1.addEventListener('click', () => {
+            this.playStraight(0);
+        });
+
         // withdraw.addEventListener('click', () => {
         //     this.real += this.coin;
         //     this.coin = 0;
@@ -149,7 +165,6 @@ class Casino {
                     this.record.push('0');
                     result = 3;
                 }
-
                 if (this.record.length > 9) {
                     this.record.shift();
                 }
@@ -165,7 +180,7 @@ class Casino {
 
                 this.record2.push({
                     date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
-                    price: value === result ? this.bet : this.bet * -1,
+                    price: value === result ? (this.bet * 1).toLocaleString() : (this.bet * -1).toLocaleString(),
                     result: value === result ? '승' : '패',
                 });
                 if (this.record2.length > 200) {
@@ -194,7 +209,7 @@ class Casino {
 
                 const resultText =
                     value === result ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
-                const resultPrice = value === result ? `+${this.bet.toLocaleString()}` : (this.bet * -1).toLocaleString();
+                const resultPrice = value === result ? `+${(this.bet * 1).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
                 p.innerHTML = resultText + `<span style="${value === result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
 
@@ -208,6 +223,219 @@ class Casino {
 
                 this.isPlay = false;
                 resolve(value === result ? true : false);
+
+                this.resultTimer = setTimeout(() => {
+                    this.render();
+                }, this.resultTime);
+            }, this.gameTime);
+        });
+    }
+
+    playDozen(value) {
+        return new Promise((resolve, reject) => {
+            if (this.bet === 0) {
+                console.log('배팅 금액을 선택하세요.');
+                return;
+            }
+
+            if (this.isPlay) {
+                console.log('게임 중입니다.');
+                return;
+            }
+            if (this.coin < this.bet) {
+                console.log('코인이 부족합니다.');
+                return;
+            }
+
+            this.coin -= this.bet;
+            this.gameCount++;
+            this.isPlay = true;
+            this.lastBet = this.bet;
+            this.render();
+
+            for (let i = 0; i < this.gameTime / 10; i++) {
+                setTimeout(() => {
+                    let ranNum = Math.floor(Math.random() * 37);
+                    betMsg.innerHTML = `<span style="font-size: 92px; font-family: 'Giants-Inline'; color: ${
+                        ranNum === 0 ? '#aaa' : ranNum % 2 == 0 ? '#fc4242' : '#fff'
+                    };">${ranNum}</span>`;
+                }, i * 10);
+            }
+
+            setTimeout(() => {
+                let number = Math.floor(Math.random() * 37);
+
+                const gameResult = value[0] <= number && number <= value[1];
+
+                if (number !== 0) {
+                    this.record.push(number);
+                } else {
+                    this.record.push('0');
+                }
+                if (this.record.length > 9) {
+                    this.record.shift();
+                }
+
+                const date = new Date();
+
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+                const day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+                const hours = date.getHours() > 9 ? date.getHours() : '0' + date.getHours();
+                const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes();
+                const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds();
+
+                this.record2.push({
+                    date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
+                    price: gameResult ? this.bet * 2 : this.bet * -1,
+                    result: gameResult ? '승' : '패',
+                });
+                if (this.record2.length > 200) {
+                    this.record2.shift();
+                }
+
+                if (gameResult) {
+                    this.coin += this.bet * 3;
+                }
+
+                const resultMsg = `<span style="font-size: 92px; font-family: 'Giants-Inline'; color: ${
+                    number == 0 ? '#aaa' : number % 2 == 0 ? '#fc4242' : '#fff'
+                };">${number}</span>`;
+                // this.modal(number, resultMsg, this.bet * 2);
+
+                betMsg.innerHTML = resultMsg;
+
+                const p = document.createElement('p');
+                p.style.cssText = `
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    position: absolute;
+                    top: 70%;
+                `;
+
+                const resultText =
+                    gameResult ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
+                const resultPrice = gameResult ? `+${(this.bet * 2).toLocaleString()}` : (this.bet * -1).toLocaleString();
+
+                p.innerHTML = resultText + `<span style="${gameResult ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
+
+                betMsg.appendChild(p);
+
+                this.bet = 0;
+
+                if (this.coin > this.maxium) {
+                    this.maxium = this.coin;
+                }
+
+                this.isPlay = false;
+                resolve(gameResult ? true : false);
+
+                this.resultTimer = setTimeout(() => {
+                    this.render();
+                }, this.resultTime);
+            }, this.gameTime);
+        });
+    }
+
+    playStraight(value) {
+        return new Promise((resolve, reject) => {
+            if (this.bet === 0) {
+                console.log('배팅 금액을 선택하세요.');
+                return;
+            }
+
+            if (this.isPlay) {
+                console.log('게임 중입니다.');
+                return;
+            }
+            if (this.coin < this.bet) {
+                console.log('코인이 부족합니다.');
+                return;
+            }
+
+            this.coin -= this.bet;
+            this.gameCount++;
+            this.isPlay = true;
+            this.lastBet = this.bet;
+            this.render();
+
+            for (let i = 0; i < this.gameTime / 10; i++) {
+                setTimeout(() => {
+                    let ranNum = Math.floor(Math.random() * 37);
+                    betMsg.innerHTML = `<span style="font-size: 92px; font-family: 'Giants-Inline'; color: ${
+                        ranNum === 0 ? '#aaa' : ranNum % 2 == 0 ? '#fc4242' : '#fff'
+                    };">${ranNum}</span>`;
+                }, i * 10);
+            }
+
+            setTimeout(() => {
+                let number = Math.floor(Math.random() * 37);
+                let result = number === value;
+
+                if (number !== 0) {
+                    this.record.push(number);
+                } else {
+                    this.record.push('0');
+                }
+                if (this.record.length > 9) {
+                    this.record.shift();
+                }
+
+                const date = new Date();
+
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+                const day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+                const hours = date.getHours() > 9 ? date.getHours() : '0' + date.getHours();
+                const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes();
+                const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds();
+
+                this.record2.push({
+                    date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
+                    price: result ? (this.bet * 35).toLocaleString() : (this.bet * -1).toLocaleString(),
+                    result: result ? '승' : '패',
+                });
+                if (this.record2.length > 200) {
+                    this.record2.shift();
+                }
+
+                if (result) {
+                    this.coin += this.bet * 36;
+                }
+
+                const resultMsg = `<span style="font-size: 92px; font-family: 'Giants-Inline'; color: ${
+                    number == 0 ? '#aaa' : number % 2 == 0 ? '#fc4242' : '#fff'
+                };">${number}</span>`;
+                // this.modal(number, resultMsg, this.bet * 2);
+
+                betMsg.innerHTML = resultMsg;
+
+                const p = document.createElement('p');
+                p.style.cssText = `
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    position: absolute;
+                    top: 70%;
+                `;
+
+                const resultText =
+                    result ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
+                const resultPrice = result ? `+${(this.bet * 35).toLocaleString()}` : (this.bet * -1).toLocaleString();
+
+                p.innerHTML = resultText + `<span style="${result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
+
+                betMsg.appendChild(p);
+
+                this.bet = 0;
+
+                if (this.coin > this.maxium) {
+                    this.maxium = this.coin;
+                }
+
+                this.isPlay = false;
+                resolve(result ? true : false);
 
                 this.resultTimer = setTimeout(() => {
                     this.render();
@@ -449,5 +677,27 @@ class Casino {
         }
 
         this.autoPlayTenPercent(count);
+    }
+
+    async autoPlayFlat(unit, count = 10) {
+        this.autoCount++;
+        this.gameTime = 0;
+        this.resultTime = 0;
+
+        if (this.autoCount > count) {
+            this.autoCount = 0;
+            return;
+        }
+
+        this.bet = unit;
+        const result = await this.play(1);
+
+        if (result) {
+            this.autoWinCount++;
+        } else {
+            this.autoLoseCount++;
+        }
+
+        this.autoPlayFlat(unit, count);
     }
 }

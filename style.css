@@ -324,3 +324,15 @@ body {
     border: none;
     cursor: pointer;
 }
+
+#dozenBtn1,
+#dozenBtn2,
+#dozenBtn3 {
+    background: #222;
+    color: #fff;
+}
+
+#straightBtn1 {
+    background: #666;
+    color: #fff;
+}
