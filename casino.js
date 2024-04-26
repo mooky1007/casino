@@ -124,19 +124,9 @@ class Casino {
 
     play(value) {
         return new Promise((resolve, reject) => {
-            if (this.bet === 0) {
-                console.log('배팅 금액을 선택하세요.');
-                return;
-            }
-
-            if (this.isPlay) {
-                console.log('게임 중입니다.');
-                return;
-            }
-            if (this.coin < this.bet) {
-                console.log('코인이 부족합니다.');
-                return;
-            }
+            if (this.bet === 0) return;
+            if (this.isPlay) return;
+            if (this.coin < this.bet) return;
 
             this.coin -= this.bet;
             this.gameCount++;
@@ -181,7 +171,7 @@ class Casino {
                 this.record2.push({
                     date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
                     price: value === result ? (this.bet * 1).toLocaleString() : (this.bet * -1).toLocaleString(),
-                    result: value === result ? '승' : '패',
+                    result: value === result ? 'Win' : '패',
                 });
                 if (this.record2.length > 200) {
                     this.record2.shift();
@@ -208,7 +198,7 @@ class Casino {
                 `;
 
                 const resultText =
-                    value === result ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
+                    value === result ? '<span style="font-size:14px;">Congratulations.</span>' : '<span style="font-size:14px;">You lose.</span>';
                 const resultPrice = value === result ? `+${(this.bet * 1).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
                 p.innerHTML = resultText + `<span style="${value === result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
@@ -233,19 +223,9 @@ class Casino {
 
     playDozen(value) {
         return new Promise((resolve, reject) => {
-            if (this.bet === 0) {
-                console.log('배팅 금액을 선택하세요.');
-                return;
-            }
-
-            if (this.isPlay) {
-                console.log('게임 중입니다.');
-                return;
-            }
-            if (this.coin < this.bet) {
-                console.log('코인이 부족합니다.');
-                return;
-            }
+            if (this.bet === 0) return;
+            if (this.isPlay) return;
+            if (this.coin < this.bet) return;
 
             this.coin -= this.bet;
             this.gameCount++;
@@ -288,7 +268,7 @@ class Casino {
                 this.record2.push({
                     date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
                     price: gameResult ? this.bet * 2 : this.bet * -1,
-                    result: gameResult ? '승' : '패',
+                    result: gameResult ? 'Win' : 'Lose',
                 });
                 if (this.record2.length > 200) {
                     this.record2.shift();
@@ -315,7 +295,7 @@ class Casino {
                 `;
 
                 const resultText =
-                    gameResult ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
+                    gameResult ? '<span style="font-size:14px;">Congratulations.</span>' : '<span style="font-size:14px;">You lose.</span>';
                 const resultPrice = gameResult ? `+${(this.bet * 2).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
                 p.innerHTML = resultText + `<span style="${gameResult ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
@@ -340,19 +320,9 @@ class Casino {
 
     playStraight(value) {
         return new Promise((resolve, reject) => {
-            if (this.bet === 0) {
-                console.log('배팅 금액을 선택하세요.');
-                return;
-            }
-
-            if (this.isPlay) {
-                console.log('게임 중입니다.');
-                return;
-            }
-            if (this.coin < this.bet) {
-                console.log('코인이 부족합니다.');
-                return;
-            }
+            if (this.bet === 0) return;
+            if (this.isPlay) return;
+            if (this.coin < this.bet) return;
 
             this.coin -= this.bet;
             this.gameCount++;
@@ -394,7 +364,7 @@ class Casino {
                 this.record2.push({
                     date: `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds}`,
                     price: result ? (this.bet * 35).toLocaleString() : (this.bet * -1).toLocaleString(),
-                    result: result ? '승' : '패',
+                    result: result ? 'Win' : '패',
                 });
                 if (this.record2.length > 200) {
                     this.record2.shift();
@@ -421,7 +391,7 @@ class Casino {
                 `;
 
                 const resultText =
-                    result ? '<span style="font-size:14px;">축하합니다.</span>' : '<span style="font-size:14px;">패배하셨습니다.</span>';
+                    result ? '<span style="font-size:14px;">Congratulations.</span>' : '<span style="font-size:14px;">You lose.</span>';
                 const resultPrice = result ? `+${(this.bet * 35).toLocaleString()}` : (this.bet * -1).toLocaleString();
 
                 p.innerHTML = resultText + `<span style="${result ? 'color: #439dff;' : 'color: #a40606;'}">${resultPrice}</span>`;
@@ -454,7 +424,7 @@ class Casino {
         this.real -= this.firstCoin;
         this.render();
 
-        window.open('https://link.coupang.com/a/bzdp8o', '_blank');
+        // window.open('https://link.coupang.com/a/bzdp8o', '_blank');
     }
 
     reset() {
@@ -471,9 +441,9 @@ class Casino {
 
     render() {
         if (this.resultTimer) clearTimeout(this.resultTimer);
-        coin.innerHTML = `소지금: ${this.coin.toLocaleString()}`;
+        coin.innerHTML = `money: ${this.coin.toLocaleString()}`;
         // maxium.innerHTML = `최대 소지금: ₩${this.maxium.toLocaleString()}`;
-        gameCount.innerHTML = `게임 횟수: ${this.gameCount.toLocaleString()}`;
+        gameCount.innerHTML = `game count: ${this.gameCount.toLocaleString()}`;
         // real.innerHTML = `보유 자금: ${(this.real + this.coin).toLocaleString()}`;
 
         window.localStorage.setItem('gameCount', this.gameCount);
@@ -482,10 +452,11 @@ class Casino {
         if (this.bet === 0) {
             if (this.coin === 0) {
                 betMsg.innerHTML =
-                    '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
+                    // '소지금이 부족합니다.<br><span>최대 소지금: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
+                    'You have no money.<br><span>Maximum: <strong style="font-size:16px;">' + this.maxium.toLocaleString() + '</strong></span>';
 
                 const restartBtn = document.createElement('button');
-                restartBtn.innerHTML = '다시하기';
+                restartBtn.innerHTML = 'Restart';
 
                 if (!window.localStorage.getItem('acc')) window.localStorage.setItem('acc', 0);
                 window.localStorage.setItem('acc', +window.localStorage.getItem('acc') + +this.firstCoin);
@@ -496,7 +467,7 @@ class Casino {
 
                 betMsg.appendChild(restartBtn);
             } else {
-                const betMsgText = '배팅하세요.';
+                const betMsgText = 'Betting amount is selected.';
                 const span = document.createElement('span');
                 span.innerHTML = betMsgText;
                 span.style.display = 'block';
@@ -506,7 +477,7 @@ class Casino {
 
                 if (this.lastBet > 0) {
                     const button = document.createElement('button');
-                    button.innerHTML = '재배팅';
+                    button.innerHTML = 'Last Bet';
                     button.addEventListener('click', () => {
                         this.bet = this.lastBet;
                         if (this.bet > this.coin) {
@@ -522,7 +493,7 @@ class Casino {
                 betMsg.appendChild(div);
             }
         } else {
-            betMsg.innerHTML = `₩${this.bet.toLocaleString()} 배팅합니다.`;
+            betMsg.innerHTML = `₩${this.bet.toLocaleString()} on the table.`;
 
             const buttonWrap = document.createElement('div');
             buttonWrap.classList.add('button-wrap');
@@ -538,7 +509,7 @@ class Casino {
             });
 
             const cancelBtn = document.createElement('button');
-            cancelBtn.innerHTML = '취소';
+            cancelBtn.innerHTML = 'Cancel';
             cancelBtn.style.backgroundColor = '#444';
             cancelBtn.addEventListener('click', () => {
                 this.bet = 0;
@@ -573,7 +544,7 @@ class Casino {
                 <li>
                     <span>${item.date}</span>
                     <span>${item.price.toLocaleString()}</span>
-                    <span style="color:${item.result === '승' ? '#439dff' : '#a40606;'}">${item.result}</span>
+                    <span style="color:${item.result === 'Win' ? '#439dff' : '#a40606;'}">${item.result}</span>
                 </li>
             `;
             })
